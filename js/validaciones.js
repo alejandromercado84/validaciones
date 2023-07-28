@@ -1,8 +1,8 @@
 //addEventListener("blur", input) el evento blur captura la informacion sobre la que el usuario se encuentra modificando
 export function validar (input){
-    const tipoDeInput = input.data-set.tipo;
+    const tipoDeInput = input.dataset.tipo;
     if(validadores[tipoDeInput]){
-        validadores[tipoDeInput](input)
+        validadores[tipoDeInput](input);
     }
     console.log(input.parentElement);
     if(input.validity.valid){
@@ -14,6 +14,11 @@ export function validar (input){
         input.parentElement.querySelector(".input-message-error").innerHTML = mostrarMensajeDeError(tipoDeInput, input);
     }
 }
+const tipoDeErrores = [
+    "valueMissing", 
+    "typeMisMatch", 
+    "patternMismatch", 
+    "customError"];
 
 const mensajesDeError = {
     nombre: {
@@ -21,23 +26,38 @@ const mensajesDeError = {
     },
     email: {
         valueMissing: "este campo no puede estar vacio",
-        typeMisMatch: "Correo no valido"
+        typeMisMatch: "Correo no valido",
     },
     password:{
         valueMissing: "este campo no puede estar vacio",
-        patternMismatch: "La contraseña debe tener entre 8 a 10 caracteres con al menos una mayuscula, minuscula, numeros y uno de los siguientes caracteres especiales @, $, !, %, *, ?, &"
+        patternMismatch: "La contraseña debe tener entre 8 a 10 caracteres con al menos una mayuscula, minuscula, numeros y uno de los siguientes caracteres especiales @, $, !, %, *, ?, &",
     },
-    nacimiento:{
+    nacimiento: {
         valueMissing: "este campo no puede estar vacio",
-        customError: "debes tener al menos 18 años"
-    }
+        customError: "debes tener al menos 18 años",
+    },
+    numero: {
+        valueMissing: "este campo no puede estar vacio",
+        patternMismatch: "El formato requerido es XXXXXXXXXX 10 Numeros",
+    },
+    direccion:{
+        valueMissing: "este campo no puede estar vacio",
+        patternMismatch: "la direccion debe tener entre 10 y 40 caracteres",
+    },
+    ciudad:{
+        valueMissing: "este campo no puede estar vacio",
+        patternMismatch: "la ciudad debe tener entre 10 y 40 caracteres",
+    },
+    estado:{
+        valueMissing: "este campo no puede estar vacio",
+        patternMismatch: "el estado debe tener entre 10 y 40 caracteres",
+    },
 };
 
 const validadores = {
     nacimiento: (input)=>{validarNacimiento(input)}
 }
 
-const tipoDeErrores = [valueMissing, typeMisMatch, patternMismatch, customError];
 function mostrarMensajeDeError (tipoDeInput, input){
     let mensaje = "";
     tipoDeErrores.forEach(error=>{
